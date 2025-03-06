@@ -1,0 +1,31 @@
+class Player {
+    private String name;
+    private String strategy;
+    private int myScore;
+    private int handScore;
+
+public Player(String n){
+    name = n;
+}
+
+public boolean wantsToRoll(int myScore, int handScore, ArrayList<Integer> otherScores, int winningScore) {
+    if (int myScore == 0) {
+        return true;
+    }
+}
+
+public String getName() {
+ return name;
+}
+
+public String getStrategy() {
+ return strategy;
+}
+
+
+
+
+
+
+
+}
