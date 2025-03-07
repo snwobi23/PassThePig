@@ -14,10 +14,10 @@ class PassThePig {
 
         shuffleList(pigList);
         ArrayList<Player> players = new ArrayList<>();
-        players.add(new Human("Samson"));
-        players.add(new Bot("Dum"));
-        players.add(new Bot("Du"));
-        players.add(new Bot("MaxiBot"));
+        players.add(new NeverPassBot("Dum"));
+        players.add(new AllinBot("Du"));
+        players.add(new MaxxWinBot("MaxiBot"));
+        shufflePlayers(players);
 
         System.out.println("Let's play Pass the Pigs!");
 
@@ -121,6 +121,15 @@ class PassThePig {
             String temp = list.get(i);
             list.set(i, list.get(j));
             list.set(j, temp);
+        }
+    }
+
+    public static void shufflePlayers(ArrayList<Player> players) {
+        for (int i = 0; i < players.size(); i++) {
+            int j = (int) (Math.random() * players.size());
+            Player temp = players.get(i);
+            players.set(i, players.get(j));
+            players.set(j, temp);
         }
     }
 

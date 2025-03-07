@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 
-class Bot extends Human {
+class MaxxWinBot extends Human {
 
-    public Bot(String name) {
+    public MaxxWinBot(String name) {
         super(name);
+        this.setStrategy("I only roll if my hand if my hand is less 25 and greater than 15, and I don't risk it at the end");
     }
 
     public boolean wantsToRoll(int myScore, int handScore, ArrayList<Integer> otherScores, int winningScore) {
@@ -14,6 +15,8 @@ class Bot extends Human {
         if (myScore >= winningScore - 5) {
             return false;
         }
+
+        
 
         return true;
     }

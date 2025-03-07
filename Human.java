@@ -6,7 +6,7 @@ class Human extends Player {
 
     public Human(String name) {
         super(name);
-        this.setStrategy("My roll based on logic");
+        this.setStrategy("I roll if my hand is less that 50");
         this.sc = new Scanner(System.in);
     }
 
@@ -19,7 +19,7 @@ class Human extends Player {
             response = sc.nextLine().toLowerCase();
         }
 
-        if (myScore < 20) {
+        if (myScore < 0 && myScore > 50) {
             return false;
         }
 
