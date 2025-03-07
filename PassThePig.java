@@ -62,7 +62,7 @@ class PassThePig {
                         break;
                     }
                 }
-            }
+            }as
 
             displayScores(players);
 
