@@ -113,7 +113,7 @@ class PassThePig {
         }
         
         return 0;
-    }
+    } 
 
     public static void shuffleList(ArrayList<String> list) {
         for (int i = 0; i < list.size(); i++) {
