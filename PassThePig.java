@@ -54,7 +54,7 @@ class PassThePig {
                             player.setScore(player.getScore() + handScore);
                             playerTurn = false;
                         }
-                    }
+                    } 
 
                     if (player.getScore() >= GAME_WIN_VALUE) {
                         gameOver = true;
