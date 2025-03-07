@@ -10,10 +10,10 @@ class Human extends Player {
         this.sc = new Scanner(System.in);
     }
 
-   public boolean wantsToRoll(int myScore, int handScore, ArrayList<Integer> otherScores, int winningScore) {
+    public boolean wantsToRoll(int myScore, int handScore, ArrayList<Integer> otherScores, int winningScore) {
         System.out.println("Do you want to roll? (yes/no)");
         String response = sc.nextLine().toLowerCase();
-        
+
         while(!response.equals("yes") && !response.equals("no")) {
             System.out.println("Incorrect. Do you want to roll? (yes/no)");
             response = sc.nextLine().toLowerCase();
@@ -24,7 +24,5 @@ class Human extends Player {
         }
 
         return response.equals("yes");
-
     }
-
 }

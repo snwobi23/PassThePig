@@ -74,7 +74,7 @@ class PassThePig {
         System.out.println("Game over! Winner is: " + winner.getName());
     }
 
-    public static void addPig(ArrayList<String> list, String outcome, int count) {
+    public static void addPig(ArrayList<String> list, String outcome, int count) {  // add the diffrent types of pigs to the list of pigs
         for (int i = 0; i < count; i++) {
             list.add(outcome);
         }
