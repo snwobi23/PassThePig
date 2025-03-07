@@ -1,37 +1,78 @@
 import java.util.ArrayList;
 
 class PassThePig {
-    public  static void main(String[] args){
+
+    public static void main(String[] args) {
         ArrayList<String> pigList = new ArrayList<>();
-        int handScore = 0;
-        int final GAME_SCORE = 100;
-        
-        addPig(pigList,"Dot",349);
-        addPig(pigList,"No Dot",302);
-        addPig(pigList,"Razorback",224);
-        addPig(pigList,"Trotter",88);
-        addPig(pigList,"Snouter",30);
-        addPig(pigList,"Leaning Jowler",7);
+        final int GAME_WIN_VALUE = 100;
+        addPig(pigList, "Dot", 349);
+        addPig(pigList, "No Dot", 302);
+        addPig(pigList, "Razorback", 224);
+        addPig(pigList, "Trotter", 88);
+        addPig(pigList, "Snouter", 30);
+        addPig(pigList, "Leaning Jowler", 7);
 
         shuffleList(pigList);
-        
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(new Human("Samson"));
+        players.add(new Bot("Dum"));
+        players.add(new Bot("Du"));
+        players.add(new Bot("MaxiBot"));
 
-        Player player = new Player("Human");
         System.out.println("Let's play Pass the Pigs!");
 
-        int pigroll1 = (int)(Math.random() * pigList.size());
-        int pigroll2 = (int)(Math.random() * pigList.size());
+        boolean gameOver = false;
+        Player winner = null;
 
-        String roll1Outcome = pigList.get(pigroll1);
-        String roll2Outcome = pigList.get(pigroll2);
+        while (!gameOver) {
+            for (int i = 0; i < players.size(); i++) {  
+                Player player = players.get(i);
+                int handScore = 0;
+                boolean playerTurn = true;
 
-        System.out.println("Player rolled:");
-        System.out.println(roll1Outcome);
-        System.out.println(roll2Outcome);
+                while (playerTurn) {
+                    int pigroll1 = (int) (Math.random() * pigList.size());
+                    int pigroll2 = (int) (Math.random() * pigList.size());
 
+                    String roll1Outcome = pigList.get(pigroll1);
+                    String roll2Outcome = pigList.get(pigroll2);
 
+                    System.out.print(player.getName() + " rolls a " + roll1Outcome + " and a " + roll2Outcome);
+
+                    if ((roll1Outcome.equals("Dot") && roll2Outcome.equals("No Dot")) ||
+                            (roll1Outcome.equals("No Dot") && roll2Outcome.equals("Dot"))) {
+                        System.out.println(". That's a PIG OUT!");
+                        handScore = 0;
+                        playerTurn = false;
+                    } else {
+                        int rollScore = getRollScore(roll1Outcome, roll2Outcome);
+                        handScore += rollScore;
+                        System.out.println(". Handscore is now " + handScore + ".");
+
+                        if (!player.wantsToRoll(player.getScore(), handScore, getOtherScores(players), GAME_WIN_VALUE)) {
+                            System.out.println(player.getName() + " passes.");
+                            player.setScore(player.getScore() + handScore);
+                            playerTurn = false;
+                        }
+                    }
+
+                    if (player.getScore() >= GAME_WIN_VALUE) {
+                        gameOver = true;
+                        winner = player;
+                        break;
+                    }
+                }
+            }
+
+            displayScores(players);
+
+            if (gameOver) {
+                break;
+            }
+        }
+
+        System.out.println("Game over! Winner is: " + winner.getName());
     }
-
 
     public static void addPig(ArrayList<String> list, String outcome, int count) {
         for (int i = 0; i < count; i++) {
@@ -39,63 +80,63 @@ class PassThePig {
         }
     }
 
-    public static void shuffleList(ArrayList<String> list) {
+    public static int getRollScore(String pig1, String pig2) {
+        if (pig1.equals("Dot") && pig2.equals("Dot")) {
+            return 1;
+        }
+        if (pig1.equals("No Dot") && pig2.equals("No Dot")) {
+            return 1;
+        }
+        if (pig1.equals("Razorback") && pig2.equals("Razorback")) {
+            return 20;
+        }
+        if (pig1.equals("Trotter") && pig2.equals("Trotter")) {
+            return 20;
+        }
+        if (pig1.equals("Snouter") && pig2.equals("Snouter")) {
+            return 40;
+        }
+        if (pig1.equals("Leaning Jowler") && pig2.equals("Leaning Jowler")) {
+            return 60;
+        }
+        if (pig1.equals("Trotter") || pig2.equals("Trotter")) {
+            return 5;
+        }
+        if (pig1.equals("Snouter") || pig2.equals("Snouter")) {
+            return 10;
+        }
+        if (pig1.equals("Leaning Jowler") || pig2.equals("Leaning Jowler")) {
+            return 15;
+        }
+        if (pig1.equals("Razorback") || pig2.equals("Razorback")) {
+            return 5;
+        }
+        
+        return 0;
+    }
 
+    public static void shuffleList(ArrayList<String> list) {
         for (int i = 0; i < list.size(); i++) {
-            int j = (int)(Math.random() * list.size());
+            int j = (int) (Math.random() * list.size());
             String temp = list.get(i);
-            list.set(i,list.get(j));
-            list.set(j,temp);
+            list.set(i, list.get(j));
+            list.set(j, temp);
         }
     }
 
-    public static void pigOutcome(String pig1, String pig2, Player player) {
-        int score = 0;
-
-        if ((pig1.equals("Dot") && pig2.equals("No Dot")) || (pig1.equals("No Dot") && p2.equals("Dot"))){ 
-            System.out.println(player.getName() + "is out the game!");
-            player.setScore(0);
-            return;
+    public static ArrayList<Integer> getOtherScores(ArrayList<Player> players) {
+        ArrayList<Integer> playerScores = new ArrayList<>();
+        for (int i = 0; i < players.size(); i++) { 
+            playerScores.add(players.get(i).getScore());
         }
+        return playerScores;
+    }
 
-        if (pig1.equals("Dot") && p2.equals("Dot")) {
-            score = 1;
-            System.out.println("You ");
-        }else if  (pig1.equals("No Dot") && p2.equals("Dot")){
-            score = 1;
-            System.out.println("You ");
-        } else if  (pig1.equals("No Dot") && p2.equals("Dot")){
-            score = 1;
-            System.out.println("You ");
-        } else if  (pig1.equals("No Dot") && p2.equals("Dot")){
-            score = 1;
-            System.out.println("You ");
-        } else if  (pig1.equals("No Dot") && p2.equals("Dot")){
-            score = 1;
-            System.out.println("You ");
-        } else if  (pig1.equals("No Dot") && p2.equals("Dot")){
-            score = 1;
-            System.out.println("You ");
-        } else if  (pig1.equals("No Dot") && p2.equals("Dot")){
-            score = 1;
-            System.out.println("You ");
-        } else {
-            if (pig1.equals("Razorback") || pig2.equals("Razorback")){
-                score = 5;
-                System.out.println("yo");
-            }  else if (pig1.equals("Razorback") || pig2.equals("Razorback")){
-                score = 1;
-                System.out.println("You ");
-            }  else if (pig1.equals("Razorback") || pig2.equals("Razorback")){
-                score = 1;
-                System.out.println("You ");
-            }  else if (pig1.equals("Razorback") || pig2.equals("Razorback")){
-                score = 1;
-                System.out.println("You ");
-                System
-            } 
+    public static void displayScores(ArrayList<Player> players) {
+        for (int i = 0; i < players.size(); i++) { 
+            Player player = players.get(i);
+            System.out.print(player.getName() + ": " + player.getScore() + " | ");
         }
-
-        player.setScore(player.getScore() + score);
+        System.out.println();
     }
 }

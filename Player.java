@@ -1,41 +1,36 @@
+import java.util.ArrayList;
+
 class Player {
     private String name;
+    private int myScore = 0;
     private String strategy;
-    private int myScore;
 
 public Player(String n){
     name = n;
-    myScore = 0;
 }
 
 public boolean wantsToRoll(int myScore, int handScore, ArrayList<Integer> otherScores, int winningScore) {
-    if (int myScore == 0) {
-        return true;
-    } else {
-        return false
-    }
+    return false;
 }
 
 public String getName() {
- return name;
+    return name;
 }
 
 public String getStrategy() {
- return strategy;
+    return strategy;
+}
+
+public void setStrategy(String strategy) {
+    this.strategy = strategy;
 }
 
 public int getScore() {
-    return score;
+    return myScore;
 }
 
 public void setScore(int score) {
     this.myScore = score;
 }
-
-
-
-
-
-
 
 }
